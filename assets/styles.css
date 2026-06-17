@@ -1390,3 +1390,18 @@ body{background:var(--color-bg);}
   .btnrow{ flex-wrap:wrap !important; gap:8px !important; }
   .btnrow > .btn{ white-space:normal !important; overflow-wrap:anywhere; }
 }
+
+/* ============================================================
+   LOGIN PAGE (index.html) — was a hardcoded 50/50 grid, broken on
+   mobile. Collapse to single column: compact branded header + form.
+   ============================================================ */
+@media (max-width:768px){
+  .login-shell{ grid-template-columns:1fr !important; min-height:100dvh; }
+  .login-art{ padding:24px 22px !important; min-height:auto !important; overflow:hidden !important; }
+  .login-art-headline{ font-size:22px !important; line-height:1.2 !important; margin-top:14px; }
+  .login-art-sub{ display:none !important; }
+  .login-art-foot{ display:none !important; }
+  .login-form-wrap{ padding:22px 16px 40px !important; place-items:stretch !important; }
+  .login-card{ max-width:100% !important; width:100% !important; }
+  .login-user-btn{ width:100%; }
+}

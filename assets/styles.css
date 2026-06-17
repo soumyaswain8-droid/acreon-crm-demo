@@ -1280,3 +1280,10 @@ body{background:var(--color-bg);}
   .rotation-step { flex-shrink:0; }
   .content, .main { overflow-x:hidden; }
 }
+
+/* FIX: .app is a CSS grid (240px sidebar col + main). Collapse it on mobile
+   so main spans full width once the sidebar is off-canvas. */
+@media (max-width:1024px){
+  .app{ display:block !important; grid-template-columns:1fr !important; }
+  .main{ width:100% !important; }
+}

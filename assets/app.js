@@ -2288,6 +2288,18 @@
       nav.appendChild(node);
     });
     document.body.appendChild(nav);
+
+    // tag page-header rows so CSS can stack title + wrap action buttons on mobile
+    document.querySelectorAll('.content .section-title').forEach(t => {
+      const titleWrap = t.parentElement;
+      const row = titleWrap && titleWrap.parentElement;
+      if (!row) return;
+      row.classList.add('mhead');
+      titleWrap.classList.add('mhead-title');
+      [...row.children].forEach(c => {
+        if (c.tagName === 'DIV' && !c.textContent.trim() && c.children.length === 0) c.classList.add('mhead-spacer');
+      });
+    });
   }
 
   // ---------- Bootstrap ----------

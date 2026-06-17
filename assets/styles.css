@@ -1287,3 +1287,34 @@ body{background:var(--color-bg);}
   .app{ display:block !important; grid-template-columns:1fr !important; }
   .main{ width:100% !important; }
 }
+
+/* ============================================================
+   MOBILE APP POLISH v4 — header stacking, table->cards, tap feedback
+   ============================================================ */
+@media (max-width:768px){
+  /* page header: title on top, action buttons wrap into a tidy row */
+  .mhead{ flex-direction:column !important; align-items:stretch !important; gap:12px !important; }
+  .mhead-title{ flex:1 1 100% !important; }
+  .mhead-spacer{ display:none !important; }
+  .mhead > .btn, .mhead > a.btn, .mhead > button{ flex:1 1 140px; justify-content:center; }
+  .section-title{ font-size:24px; line-height:1.15; }
+
+  /* data tables -> stacked card list (native app feel) */
+  .card:has(table){ padding:8px !important; background:transparent !important; border:none !important; box-shadow:none !important; overflow:visible !important; }
+  .card table, .card thead, .card tbody, .card tr, .card td{ display:block !important; width:auto !important; white-space:normal !important; }
+  .card table{ overflow:visible !important; }
+  .card thead{ display:none !important; }
+  .card tr{ background:#fff; border:1px solid var(--color-border); border-radius:var(--radius-lg);
+    padding:12px 14px; margin:0 0 10px; box-shadow:var(--shadow-sm); transition:transform .12s ease, box-shadow .15s ease; }
+  .card tr:active{ transform:scale(.985); box-shadow:var(--shadow-md); }
+  .card td{ border:none !important; padding:5px 0 !important; }
+  .card td:first-child{ padding-bottom:9px !important; border-bottom:1px solid var(--color-slate-100) !important; margin-bottom:5px; }
+  /* keep avatar+name cell tidy */
+  .lead-name-cell{ display:flex; align-items:center; gap:10px; }
+  .lead-meta{ word-break:break-word; }
+
+  /* tap feedback on interactive cards */
+  .kpi, .card, .stat-card{ -webkit-tap-highlight-color:transparent; }
+  .kpi:active, a.kpi:active{ transform:scale(.985); }
+  .btn:active{ transform:scale(.96); }
+}

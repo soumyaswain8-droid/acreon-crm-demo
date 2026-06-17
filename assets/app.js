@@ -2305,6 +2305,13 @@
     document.querySelectorAll('.content .card').forEach(c => {
       if (/will rotate tonight|Open Rotation Engine/i.test(c.textContent)) c.classList.add('rot-banner');
     });
+
+    // tag every row that holds 2+ buttons so CSS can wrap them (never clip on mobile)
+    document.querySelectorAll('.content .btn').forEach(b => {
+      const p = b.parentElement; if (!p) return;
+      const btns = [...p.children].filter(c => c.classList && c.classList.contains('btn'));
+      if (btns.length >= 2) p.classList.add('btnrow');
+    });
   }
 
   // ---------- Bootstrap ----------

@@ -1301,11 +1301,16 @@ body{background:var(--color-bg);}
 
   /* data tables -> stacked card list (native app feel) */
   .card:has(table){ padding:8px !important; background:transparent !important; border:none !important; box-shadow:none !important; overflow:visible !important; }
-  .card table, .card thead, .card tbody, .card tr, .card td{ display:block !important; width:auto !important; white-space:normal !important; }
+  .card table, .card tbody, .card td{ display:block !important; width:auto !important; white-space:normal !important; }
   .card table{ overflow:visible !important; }
   .card thead{ display:none !important; }
-  .card tr{ background:#fff; border:1px solid var(--color-border); border-radius:var(--radius-lg);
+  /* NOTE: display is intentionally NOT !important here so JS filter/search
+     (which sets inline display:none on a <tr>) can still hide rows.
+     .card tr (0,1,1) still beats the base "tr"/"tbody tr" rules by specificity. */
+  .card tr{ display:block; width:auto !important; white-space:normal !important;
+    background:#fff; border:1px solid var(--color-border); border-radius:var(--radius-lg);
     padding:12px 14px; margin:0 0 10px; box-shadow:var(--shadow-sm); transition:transform .12s ease, box-shadow .15s ease; }
+  .card tr[style*="display: none"], .card tr[style*="display:none"]{ display:none !important; }
   .card tr:active{ transform:scale(.985); box-shadow:var(--shadow-md); }
   .card td{ border:none !important; padding:5px 0 !important; }
   .card td:first-child{ padding-bottom:9px !important; border-bottom:1px solid var(--color-slate-100) !important; margin-bottom:5px; }
@@ -1361,3 +1366,27 @@ body{background:var(--color-bg);}
 
 /* v5.1: stacked rotation trail no longer needs the horizontal connector arrow */
 @media (max-width:768px){ .rotation-trail > span{ display:none !important; } }
+
+/* ============================================================
+   MOBILE APP POLISH v7 — robust: button rows WRAP (never clip on
+   real devices where emoji/text render wider than headless),
+   declutter topbar (FAB covers Add)
+   ============================================================ */
+@media (max-width:768px){
+  /* hero action buttons: wrap, fill width — cannot clip */
+  .lead-hero-actions{ flex-wrap:wrap !important; gap:8px !important; }
+  .lead-hero-actions > .btn{ flex:1 1 calc(50% - 8px); justify-content:center; }
+  /* generic button/action rows wrap */
+  .card-actions, .modal-actions, .form-actions, .filter-bar{ flex-wrap:wrap !important; }
+  /* topbar: remove redundant Add Lead (bottom-nav FAB does Add); give title room */
+  .topbar [data-action="add-lead"]{ display:none !important; }
+  .topbar-title{ max-width:62vw !important; }
+  /* any pill/tag/chip rows wrap, never clip */
+  .lead-hero-tags, .hero-tags, .chips, .tag-row{ flex-wrap:wrap !important; }
+}
+
+/* v8: every multi-button row wraps + button text wraps -> impossible to clip on any device */
+@media (max-width:768px){
+  .btnrow{ flex-wrap:wrap !important; gap:8px !important; }
+  .btnrow > .btn{ white-space:normal !important; overflow-wrap:anywhere; }
+}

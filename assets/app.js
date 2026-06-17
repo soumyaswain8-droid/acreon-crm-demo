@@ -2300,6 +2300,11 @@
         if (c.tagName === 'DIV' && !c.textContent.trim() && c.children.length === 0) c.classList.add('mhead-spacer');
       });
     });
+
+    // tag the dark "rotation" banner card so its layout can stack on mobile
+    document.querySelectorAll('.content .card').forEach(c => {
+      if (/will rotate tonight|Open Rotation Engine/i.test(c.textContent)) c.classList.add('rot-banner');
+    });
   }
 
   // ---------- Bootstrap ----------

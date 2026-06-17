@@ -1318,3 +1318,46 @@ body{background:var(--color-bg);}
   .kpi:active, a.kpi:active{ transform:scale(.985); }
   .btn:active{ transform:scale(.96); }
 }
+
+/* ============================================================
+   MOBILE APP POLISH v5 — fix text overflow, rotation banner/trail,
+   lead-detail hero + tabs, reports cards
+   ============================================================ */
+@media (max-width:768px){
+  /* --- Rotation banner: stack icon, text, button; text fills width --- */
+  .rot-banner .card-body{ flex-direction:column !important; align-items:flex-start !important; gap:14px !important; text-align:left !important; }
+  .rot-banner .card-body > *{ width:100% !important; max-width:100% !important; min-width:0 !important; }
+  .rot-banner .card-body > div:first-child{ width:auto !important; font-size:26px; }   /* the ↻ icon */
+  .rot-banner .btn, .rot-banner a.btn{ width:100% !important; justify-content:center; }
+  .rot-banner .card-body div{ white-space:normal !important; }
+
+  /* --- Rotation trail: stack steps vertically, full width, no bleed --- */
+  .rotation-trail{ flex-direction:column !important; gap:10px !important; overflow:visible !important; }
+  .rotation-trail > *{ width:100% !important; min-width:0 !important; flex:0 0 auto !important; }
+  .rotation-step{ width:100% !important; min-width:0 !important; }
+  .rotation-step-info{ min-width:0 !important; }
+  .rotation-step-name, .rotation-step-dates{ white-space:normal !important; overflow-wrap:anywhere; }
+  .rotation-trail > span{ align-self:center !important; transform:rotate(90deg); }  /* connector arrow */
+
+  /* --- Generic: lead name / project / meta lines wrap instead of overflow --- */
+  .lead-name, .cell-strong, .lead-meta, .muted, .card-subtitle, .card-title, .section-sub{ white-space:normal !important; overflow-wrap:anywhere; }
+  .content .card-header{ flex-wrap:wrap; gap:6px; }
+
+  /* --- Lead-detail hero: stack + wrap chips --- */
+  .lead-hero-row{ flex-wrap:wrap !important; }
+  .lead-hero-tags{ flex-wrap:wrap !important; }
+  .lead-hero-meta{ white-space:normal !important; overflow-wrap:anywhere; }
+  .lead-hero-name{ white-space:normal !important; }
+
+  /* --- Tab bar: horizontal scroll (segmented), no clipping --- */
+  .tab-bar{ flex-wrap:nowrap !important; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  .tab-bar::-webkit-scrollbar{ display:none; }
+  .tab{ flex:0 0 auto !important; white-space:nowrap; }
+
+  /* --- Reports: keep source/rotation bars & rows inside the card --- */
+  .card-body > div{ min-width:0; max-width:100%; }
+  .source-dot{ flex:0 0 auto; }
+}
+
+/* v5.1: stacked rotation trail no longer needs the horizontal connector arrow */
+@media (max-width:768px){ .rotation-trail > span{ display:none !important; } }

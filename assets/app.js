@@ -1,12 +1,12 @@
 /* ===================================================================
-   Dwellinn CRM mockup — runtime auth + role gating + modal interactivity
+   Acreon CRM mockup — runtime auth + role gating + modal interactivity
    No innerHTML for user-typed data — uses DOM methods + textContent.
    =================================================================== */
 
 (function () {
-  const LS_USER     = 'dwellinn_currentUserId';
-  const LS_LEADS    = 'dwellinn_leadOverrides_v2';
-  const LS_NEW_LEADS= 'dwellinn_newLeads_v1';
+  const LS_USER     = 'acreon_currentUserId';
+  const LS_LEADS    = 'acreon_leadOverrides_v2';
+  const LS_NEW_LEADS= 'acreon_newLeads_v1';
 
   // ---------- New leads (created via Add Lead modal) ----------
   function getNewLeads() {
@@ -49,11 +49,11 @@
   }
 
   // ---------- CP + clash storage (demo) ----------
-  const LS_CP_OVERRIDES = 'dwellinn_cpOverrides_v1';   // { CP-xxxx: { status } }
-  const LS_NEW_CPS       = 'dwellinn_newCps_v1';        // [ {id,name,firm,...} ]
-  const LS_NEW_PROJECTS  = 'dwellinn_newProjects_v1';   // [ {name,builder,location,...} ]
-  const LS_CLASH_OV      = 'dwellinn_clashOverrides_v1';// { CL-xxxx: { status, resolution, resolvedBy } }
-  const LS_NOTIFS        = 'dwellinn_notifs_v1';        // [ {title, time, kind} ]
+  const LS_CP_OVERRIDES = 'acreon_cpOverrides_v1';   // { CP-xxxx: { status } }
+  const LS_NEW_CPS       = 'acreon_newCps_v1';        // [ {id,name,firm,...} ]
+  const LS_NEW_PROJECTS  = 'acreon_newProjects_v1';   // [ {name,builder,location,...} ]
+  const LS_CLASH_OV      = 'acreon_clashOverrides_v1';// { CL-xxxx: { status, resolution, resolvedBy } }
+  const LS_NOTIFS        = 'acreon_notifs_v1';        // [ {title, time, kind} ]
 
   function getCpOverrides() { try { return JSON.parse(localStorage.getItem(LS_CP_OVERRIDES) || '{}'); } catch { return {}; } }
   function saveCpStatus(id, status) { const o = getCpOverrides(); o[id] = { status }; localStorage.setItem(LS_CP_OVERRIDES, JSON.stringify(o)); }
@@ -228,10 +228,10 @@
     // Brand
     const brand = el('div', { class: 'brand' });
     brand.append(
-      el('div', { class: 'brand-mark', text: 'D' }),
+      el('div', { class: 'brand-mark', text: 'A' }),
       el('div', {}, [
-        el('div', { class: 'brand-name', text: 'Dwellinn CRM' }),
-        el('div', { class: 'brand-tag', text: 'Dwellinn Properties' }),
+        el('div', { class: 'brand-name', text: 'Acreon CRM' }),
+        el('div', { class: 'brand-tag', text: 'Acreon Realty' }),
       ])
     );
     sidebar.appendChild(brand);
@@ -256,7 +256,7 @@
     chip.appendChild(avatarEl(user.initials, user.color, 'md'));
     chip.appendChild(el('div', { class: 'user-info' }, [
       el('div', { class: 'user-name', text: user.name }),
-      el('div', { class: 'user-role', text: (isOwner ? 'Owner' : user.roleName) + ' · Dwellinn' }),
+      el('div', { class: 'user-role', text: (isOwner ? 'Owner' : user.roleName) + ' · Acreon' }),
     ]));
     const logoutBtn = el('button', { class: 'icon-btn', title: 'Logout', style: 'margin-left:auto;background:transparent;border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);width:28px;height:28px;', text: '⏏' });
     logoutBtn.addEventListener('click', logout);
@@ -277,7 +277,7 @@
     let subtitle = '';
     if (page === 'dashboard') {
       title = isOwner ? `Good evening, ${user.name.split(' ')[0]}` : `Hi ${user.name.split(' ')[0]}`;
-      subtitle = isOwner ? `Dwellinn Properties — today's overview` : `Your leads and follow-ups for today`;
+      subtitle = isOwner ? `Acreon Realty — today's overview` : `Your leads and follow-ups for today`;
     } else if (page === 'leads') {
       title = isOwner ? 'All Leads' : 'My Leads';
     } else if (page === 'rotation') title = 'Rotation Engine';
@@ -1083,7 +1083,7 @@
           const sel = document.getElementById('rlEmployee');
           if (sel && suggested) sel.value = suggested;
           const ctx = document.getElementById('rlContext');
-          if (ctx) ctx.textContent = `Rotating "${m.dataset.leadName}" (${m.dataset.leadId}) — the current owner must record why before the handoff is final. Lohit sees the full trail.`;
+          if (ctx) ctx.textContent = `Rotating "${m.dataset.leadName}" (${m.dataset.leadId}) — the current owner must record why before the handoff is final. Keya sees the full trail.`;
           m.hidden = false;
         }
       } else if (action === 'add-project') {
@@ -1104,7 +1104,7 @@
           m.dataset.leadId = a.getAttribute('data-lead-id') || '';
           m.dataset.leadName = a.getAttribute('data-lead-name') || '';
           const ctx = document.getElementById('fuContext');
-          if (ctx) ctx.textContent = `Scheduling follow-up for "${m.dataset.leadName}". You and Lohit will get a reminder on the day.`;
+          if (ctx) ctx.textContent = `Scheduling follow-up for "${m.dataset.leadName}". You and Keya will get a reminder on the day.`;
           // Default date = tomorrow
           const d = new Date(); d.setDate(d.getDate() + 1);
           const dateEl = document.getElementById('fuDate');
@@ -1117,7 +1117,7 @@
           m.dataset.leadId = a.getAttribute('data-lead-id') || '';
           m.dataset.leadName = a.getAttribute('data-lead-name') || '';
           const ctx = document.getElementById('tkContext');
-          if (ctx) ctx.textContent = `New task for "${m.dataset.leadName}". The employee gets a reminder; Lohit can be notified for site visits & important tasks.`;
+          if (ctx) ctx.textContent = `New task for "${m.dataset.leadName}". The employee gets a reminder; Keya can be notified for site visits & important tasks.`;
           // Default date = 2 days from now
           const d = new Date(); d.setDate(d.getDate() + 2);
           const dateEl = document.getElementById('tkDate');
@@ -1233,7 +1233,7 @@
       const taskId = 'T-' + Date.now();
       saveOverride(leadId, { type: 'followup', taskId, date, time, fuType: type, reason });
       modal.hidden = true;
-      showToast(`Follow-up scheduled — ${type} on ${date} at ${time}. Reminder set for you & Lohit.`);
+      showToast(`Follow-up scheduled — ${type} on ${date} at ${time}. Reminder set for you & Keya.`);
       document.getElementById('fuReason').value = '';
       setTimeout(() => location.reload(), 700);
     });
@@ -1252,7 +1252,7 @@
       saveOverride(leadId, { type: 'task', taskId, taskType, date, priority, remarks, notifyLead });
       modal.hidden = true;
       const msg = notifyLead
-        ? `Task "${taskType}" created for ${date}. You and Lohit notified.`
+        ? `Task "${taskType}" created for ${date}. You and Keya notified.`
         : `Task "${taskType}" created for ${date}.`;
       showToast(msg);
       document.getElementById('tkRemarks').value = '';
@@ -1270,7 +1270,7 @@
       const remarks = document.getElementById('cvRemarks').value;
       saveOverride(leadId, { type: 'convert', amount, date, token, remarks, closed: true });
       modal.hidden = true;
-      showToast(`🏆 Lead converted! Deal value ₹${amount}. All open tasks marked complete. Lohit notified.`);
+      showToast(`🏆 Lead converted! Deal value ₹${amount}. All open tasks marked complete. Keya notified.`);
       setTimeout(() => location.reload(), 1200);
     });
 
@@ -1389,7 +1389,7 @@
         // notify both sides (simulated)
         pushNotif(`CLASH: ${registrantName} is registering ${newLead.name} for ${newLead.project} — same mobile & name as an existing claim`, 'red');
         pushNotif(`Under review — ${newLead.name} may clash with ${result.existing.registrantName || 'an existing registration'}`, 'amber');
-        finalizeAndGo(newLead, `⚠ Possible clash — "${name}" created under review. Lohit notified to adjudicate.`);
+        finalizeAndGo(newLead, `⚠ Possible clash — "${name}" created under review. Keya notified to adjudicate.`);
         return;
       }
 
@@ -1437,7 +1437,7 @@
       pushNotif(`Under review — ${lead.name} routed to clash queue`, 'amber');
       saveNewLead(lead);
       if (vm) vm.hidden = true;
-      showToast(`Confirmed same customer — "${lead.name}" created under review. Lohit will adjudicate.`);
+      showToast(`Confirmed same customer — "${lead.name}" created under review. Keya will adjudicate.`);
       setTimeout(() => { window.location.href = `leads.html?new=${lead.id}`; }, 1000);
     });
     const verifyDifferent = document.getElementById('verifyDifferent');
@@ -1487,7 +1487,7 @@
       const newOwner = window.MOCK_DATA.employees.find(e => e.id === newOwnerId);
       saveOverride(leadId, { type: 'rotation', newOwnerId, reason, note });
       modal.hidden = true;
-      showToast(`${leadName} rotated to ${newOwner?.name || 'employee'}. Lohit has visibility.`);
+      showToast(`${leadName} rotated to ${newOwner?.name || 'employee'}. Keya has visibility.`);
       // Remove the row from rotation queue
       const row = document.querySelector(`[data-action="rotate-lead"][data-lead-id="${leadId}"]`)?.closest('tr');
       if (row) {
@@ -1531,7 +1531,7 @@
       const note = document.getElementById('fbNote').value;
       saveOverride(leadId, { type: 'feedback', outcome, note });
       modal.hidden = true;
-      showToast('Feedback saved. Lohit can see this on the audit trail.');
+      showToast('Feedback saved. Keya can see this on the audit trail.');
       setTimeout(() => location.reload(), 700);
     });
 
@@ -1559,7 +1559,7 @@
       const note = document.getElementById('clNote').value;
       saveOverride(leadId, { type: 'close', reason, note, closed: true });
       modal.hidden = true;
-      showToast('Lead closed. Lohit can review the closure reason.');
+      showToast('Lead closed. Keya can review the closure reason.');
       setTimeout(() => location.reload(), 800);
     });
   }
@@ -1612,7 +1612,7 @@
         } else if (ev.type === 'close') summary = `Lead closed — ${ev.reason}`;
         else if (ev.type === 'stage') summary = `Stage advanced to "${ev.stage}"`;
         else if (ev.type === 'followup') summary = `📅 Follow-up scheduled — ${ev.fuType} on ${ev.date} at ${ev.time}`;
-        else if (ev.type === 'task') summary = `✓ Task created — ${ev.taskType} (due ${ev.date}${ev.notifyLead ? ', Lohit notified' : ''})`;
+        else if (ev.type === 'task') summary = `✓ Task created — ${ev.taskType} (due ${ev.date}${ev.notifyLead ? ', Keya notified' : ''})`;
         else if (ev.type === 'convert') summary = `🏆 Lead converted — ₹${ev.amount} deal · token ₹${ev.token}`;
         body.appendChild(el('strong', { text: summary }));
         const noteText = ev.note || ev.remarks || ev.reason;
@@ -1663,7 +1663,7 @@
             const priority = t.priority || 'Medium';
             meta.textContent = `Due ${t.date} · ${priority} priority`;
             if (t.notifyLead) {
-              meta.textContent += ' · Lohit notified';
+              meta.textContent += ' · Keya notified';
             }
           } else {
             meta.textContent = `${t.date} at ${t.time}`;
@@ -1863,9 +1863,9 @@
   }
   function resolveClash(id, resolution, toastMsg, card) {
     const user = getCurrentUser();
-    saveClashResolution(id, resolution, user?.name || 'Lohit');
+    saveClashResolution(id, resolution, user?.name || 'Keya');
     if (card) markCardResolved(card, resolution);
-    pushNotif(`Clash ${id} resolved by ${user?.name || 'Lohit'} — ${resolution.replace(/_/g, ' ')}. Both sides notified.`, 'emerald');
+    pushNotif(`Clash ${id} resolved by ${user?.name || 'Keya'} — ${resolution.replace(/_/g, ' ')}. Both sides notified.`, 'emerald');
     showToast(toastMsg);
   }
 
@@ -1874,7 +1874,7 @@
   // ========================================================================
 
   // New employees imported from CSV persist here (mirrors new-projects / new-cps stores).
-  const LS_NEW_EMPLOYEES = 'dwellinn_newEmployees_v1';
+  const LS_NEW_EMPLOYEES = 'acreon_newEmployees_v1';
   function getNewEmployees() { try { return JSON.parse(localStorage.getItem(LS_NEW_EMPLOYEES) || '[]'); } catch { return []; } }
   function saveNewEmployee(emp) { const all = getNewEmployees(); all.unshift(emp); localStorage.setItem(LS_NEW_EMPLOYEES, JSON.stringify(all)); }
 
@@ -1952,7 +1952,7 @@
   // ---- exporters ----
   function exportProjects() {
     const rows = liveProjects();
-    downloadCSV('dwellinn-projects.csv', toCSV(rows, [
+    downloadCSV('acreon-projects.csv', toCSV(rows, [
       { header: 'Project',     key: 'name' },
       { header: 'Location',    key: 'location' },
       { header: 'Zone',        get: p => p.zone || '' },
@@ -1965,7 +1965,7 @@
   }
   function exportEmployees() {
     const rows = liveEmployees();
-    downloadCSV('dwellinn-employees.csv', toCSV(rows, [
+    downloadCSV('acreon-employees.csv', toCSV(rows, [
       { header: 'Emp ID',   get: e => e.employeeId || e.id || '' },
       { header: 'Name',     key: 'name' },
       { header: 'Role',     get: e => e.roleName || '' },
@@ -1978,7 +1978,7 @@
   }
   function exportLeads() {
     const rows = liveLeads();
-    downloadCSV('dwellinn-leads.csv', toCSV(rows, [
+    downloadCSV('acreon-leads.csv', toCSV(rows, [
       { header: 'Lead ID',   get: l => l.id || '' },
       { header: 'Name',      key: 'name' },
       { header: 'Phone',     get: l => l.phone || '' },
@@ -1995,7 +1995,7 @@
   }
   function exportOwnership() {
     const rows = liveLeads();
-    downloadCSV('dwellinn-lead-ownership.csv', toCSV(rows, [
+    downloadCSV('acreon-lead-ownership.csv', toCSV(rows, [
       { header: 'Lead ID',        get: l => l.id || '' },
       { header: 'Lead Name',      key: 'name' },
       { header: 'Phone',          get: l => l.phone || '' },
@@ -2013,7 +2013,7 @@
   function exportRotation() {
     // Only leads that have moved through the rotation engine (or are stale).
     const rows = liveLeads().filter(l => (l.rotations || 0) > 0 || l.isStale);
-    downloadCSV('dwellinn-lead-rotation.csv', toCSV(rows, [
+    downloadCSV('acreon-lead-rotation.csv', toCSV(rows, [
       { header: 'Lead ID',        get: l => l.id || '' },
       { header: 'Lead Name',      key: 'name' },
       { header: 'Project',        get: l => l.project || '' },
@@ -2028,7 +2028,7 @@
   }
   function exportCps() {
     const rows = liveCps();
-    downloadCSV('dwellinn-channel-partners.csv', toCSV(rows, [
+    downloadCSV('acreon-channel-partners.csv', toCSV(rows, [
       { header: 'CP ID',   get: c => c.id || '' },
       { header: 'Name',    key: 'name' },
       { header: 'Firm',    get: c => c.firm || '' },
@@ -2245,6 +2245,51 @@
     });
   }
 
+
+  // ---------- Mobile app shell: hamburger drawer + bottom tab bar ----------
+  function renderMobileShell(user) {
+    const isOwner = !!user.isOwner;
+    const page = document.body.dataset.page;
+    document.querySelectorAll('.mobile-nav, .sidebar-backdrop, .hamburger').forEach(n => n.remove());
+
+    const backdrop = el('div', { class: 'sidebar-backdrop' });
+    const openDrawer = () => { document.getElementById('sidebar')?.classList.add('open'); backdrop.classList.add('show'); };
+    const closeDrawer = () => { document.getElementById('sidebar')?.classList.remove('open'); backdrop.classList.remove('show'); };
+    backdrop.addEventListener('click', closeDrawer);
+    document.body.appendChild(backdrop);
+
+    const t = document.getElementById('topbar');
+    if (t) {
+      const burger = el('button', { class: 'hamburger icon-btn', title: 'Menu', 'aria-label': 'Open menu', text: '☰' });
+      burger.addEventListener('click', (e) => { e.stopPropagation(); openDrawer(); });
+      t.insertBefore(burger, t.firstChild);
+    }
+    document.querySelectorAll('#sidebar .nav-item').forEach(a => a.addEventListener('click', closeDrawer));
+
+    const tabs = [
+      { key: 'dashboard', label: 'Home',    icon: '◆', href: 'dashboard.html' },
+      { key: 'leads',     label: 'Leads',   icon: '☰', href: 'leads.html' },
+      { key: '__add',     label: 'Add',     icon: '+',      action: 'add-lead' },
+      isOwner ? { key: 'reports', label: 'Reports', icon: '▤', href: 'reports.html' }
+              : { key: 'projects', label: 'Projects', icon: '⌂', href: 'projects.html' },
+      { key: '__more',    label: 'More',    icon: '≡',  action: 'more' },
+    ];
+    const nav = el('div', { class: 'mobile-nav' });
+    tabs.forEach(tb => {
+      const isAdd = tb.key === '__add';
+      const tag = tb.href ? 'a' : 'button';
+      const attrs = { class: 'mnav-item' + (isAdd ? ' mnav-add' : '') + (tb.key === page ? ' is-active' : '') };
+      if (tb.href) attrs.href = tb.href;
+      if (tb.action === 'add-lead') attrs['data-action'] = 'add-lead';
+      const node = el(tag, attrs, []);
+      node.appendChild(el('span', { class: 'mnav-icon', text: tb.icon }));
+      node.appendChild(el('span', { class: 'mnav-label', text: tb.label }));
+      if (tb.action === 'more') node.addEventListener('click', (e) => { e.stopPropagation(); openDrawer(); });
+      nav.appendChild(node);
+    });
+    document.body.appendChild(nav);
+  }
+
   // ---------- Bootstrap ----------
   document.addEventListener('DOMContentLoaded', () => {
     if (!document.getElementById('sidebar')) return; // not an app page (e.g., login)
@@ -2254,6 +2299,7 @@
 
     renderSidebar(user);
     renderTopbar(user);
+    renderMobileShell(user);
 
     const page = document.body.dataset.page;
     const isLeadDetail = !!document.querySelector('[data-lead-detail-host]');

@@ -1,8 +1,8 @@
-# Dwellinn CRM — Interactive Demo
+# Acreon CRM — Interactive Demo
 
-Live real-estate CRM demo for **Dwellinn Properties** (built for Lohit Shetty's team).
+Live real-estate CRM demo for **Acreon Realty** (built for Keya Trehan's team).
 
-**Live:** https://soumyaswain8-droid.github.io/dwellinn-crm-demo/
+**Live:** https://soumyaswain8-droid.github.io/acreon-crm-demo/
 
 Open the link, pick a user on the sign-in screen (demo mode — no password), and explore:
 dashboard, leads & lead detail, projects, lead rotation, clashes, channel partners,

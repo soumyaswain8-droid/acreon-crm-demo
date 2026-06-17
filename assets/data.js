@@ -1,34 +1,35 @@
 /* =====================================================================
-   Mock data for Dwellinn CRM demo
-   Single owner (Lohit) + 45 employees + ~50 leads with varied states
+   Mock data for Acreon CRM demo
+   Single owner (Keya) + 45 employees + ~50 leads with varied states
    ===================================================================== */
 
 const AVATAR_COLORS = ['amber','emerald','violet','rose','sky','teal','slate','indigo'];
 const avColor = (i) => AVATAR_COLORS[i % AVATAR_COLORS.length];
 
 const OWNER = {
+  initials: 'KT',
   id: 'U-0001',
-  name: 'Lohit Shetty',
+  name: 'Keya Trehan',
   role: 'Owner',
-  email: 'lohit@dwellinn.in',
+  email: 'keya@acreon.in',
   phone: '+91 98450 11111',
-  avatar: 'LS',
+  avatar: 'KT',
   color: 'amber',
 };
 
 const FIRST_NAMES = [
-  'Aarav','Vihaan','Aditya','Krishna','Reyansh','Ayaan','Atharv','Arjun','Sai','Rohan',
-  'Neeraj','Sandeep','Rahul','Karthik','Vinay','Pradeep','Manoj','Suresh','Ravi','Kiran',
-  'Anjali','Priya','Divya','Sneha','Kavya','Pooja','Meera','Riya','Asha','Lakshmi',
-  'Deepak','Mahesh','Ramesh','Naveen','Bharath','Ganesh','Harish','Imran','Jagadish','Kishore',
-  'Lalitha','Nisha','Preeti','Radha','Sushma',
+  'Aarush','Ahaan','Devansh','Disha','Ranveer','Kiaan','Hriday','Yuvan','Aarush','Tejas',
+  'Aarit','Vivaan','Manas','Tara','Hriday','Hardik','Tisha','Shaurya','Pranav','Bhavya',
+  'Advik','Jayesh','Tanish','Kabir','Vanya','Girik','Urvi','Saatvik','Darsh','Hiral',
+  'Raghav','Reet','Omkar','Mira','Laksh','Aanya','Saanvi','Diya','Navya','Charvi',
+  'Inaya','Dhruv','Ivaan','Lavin','Advik',
 ];
 const LAST_NAMES = [
-  'Shetty','Reddy','Kumar','Iyer','Naidu','Rao','Hegde','Bhat','Pai','Kamath',
-  'Murthy','Joshi','Verma','Singh','Patel','Sharma','Gowda','Babu','Menon','Nair',
-  'Pillai','Acharya','Bhattacharya','Chowdhury','Das','Gupta','Krishna','Lakshmi','Nambiar','Patil',
-  'Rangaswamy','Subramanian','Tiwari','Upadhyay','Venkataraman','Yadav','Bansal','Chopra','Dixit','Goel',
-  'Jain','Khanna','Mishra','Pandey','Rastogi',
+  'Trehan','Sodhi','Madan','Bhalla','Sahni','Marwah','Walia','Chauhan','Bhasin','Gandhi',
+  'Rana','Dewan','Gulati','Khurana','Datta','Chhabra','Uppal','Malhotra','Ohri','Thakur',
+  'Hooda','Mehta','Dhawan','Mathur','Oberoi','Vohra','Disha','Hiral','Wadhwa','Garg',
+  'Kalra','Sachdev','Bhandari','Chawla','Dua','Kakkar','Bajaj','Kapadia','Raina','Talwar',
+  'Chadha','Kohli','Prasad','Chandra','Narang',
 ];
 
 const TEAMS = ['Whitefield', 'North Bangalore', 'South Bangalore', 'East Bangalore', 'CP Network'];
@@ -45,7 +46,7 @@ for (let i = 0; i < 45; i++) {
     color: avColor(i),
     team: TEAMS[i % TEAMS.length],
     phone: `+91 9${(800000000 + i * 13).toString().slice(0,9)}`,
-    email: `${fn.toLowerCase()}.${ln.toLowerCase()}@dwellinn.in`,
+    email: `${fn.toLowerCase()}.${ln.toLowerCase()}@acreon.in`,
     joinedAt: '2024-09-15',
   });
 }
@@ -111,16 +112,16 @@ const pick = (arr, i) => arr[i % arr.length];
 //   Closed: ~7
 
 const LEAD_NAMES = [
-  'Anwar Sadhu','Apoorva Reddy','Swapnil Latare','Ajay Vikram','Netik Sonik',
-  'Karthik Bhat','Meera Pillai','Rohit Verma','Sneha Krishnan','Arun Joshi',
-  'Divya Menon','Vishal Singh','Priya Nair','Manoj Patel','Rakesh Sharma',
-  'Lakshmi Iyer','Suresh Naidu','Asha Reddy','Bharath Gupta','Ganesh Hegde',
-  'Harish Pai','Imran Khan','Jagadish Rao','Kishore Acharya','Lalitha Murthy',
-  'Mahesh Babu','Naveen Kumar','Pooja Bansal','Rakesh Chopra','Sushma Dixit',
-  'Tarun Goel','Uma Jain','Vinod Khanna','Yamuna Mishra','Zaheer Pandey',
-  'Aditi Rastogi','Bhargav Tiwari','Chetna Upadhyay','Deepika Venkataraman','Eshan Yadav',
-  'Faiza Iqbal','Gaurav Saxena','Hemanth Reddy','Ishaan Bose','Jaya Pillai',
-  'Kunal Dey','Latha Subramanian','Mohan Naidu','Nikhil Pai','Ojaswini Rao',
+  'Rudra Tandon','Veer Sodhi','Rudra Nanda','Kabir Darsh','Bodhi Bakshi',
+  'Tara Chauhan','Urvi Hooda','Viraj Gulati','Kabir Luthra','Ahaan Dewan',
+  'Tanish Ohri','Laksh Khurana','Jayesh Thakur','Tisha Datta','Nirvaan Chhabra',
+  'Hiral Bhalla','Shaurya Sahni','Darsh Sodhi','Laksh Vohra','Aanya Walia',
+  'Saanvi Bhasin','Diya Handa','Navya Marwah','Charvi Mehta','Inaya Rana',
+  'Reet Malhotra','Mira Madan','Girik Bajaj','Nirvaan Kapadia','Advik Raina',
+  'Veer Talwar','Yuvan Chadha','Kiaan Kohli','Mehul Prasad','Nakul Chandra',
+  'Vivaan Narang','Mehul Bhandari','Nakul Chawla','Samar Dua','Vedant Kakkar',
+  'Yash Ahuja','Ira Bedi','Anvi Sodhi','Kiara Grover','Pari Hooda',
+  'Gauri Puri','Jiya Sachdev','Zara Sahni','Chirag Bhasin','Farhan Marwah',
 ];
 
 const PIPELINE_STAGES = ['Open', 'Prospect', 'Opportunity', 'Site Visit', 'Negotiation'];

@@ -3,106 +3,254 @@
 <head>
 <meta charset="UTF-8">
 <meta name="robots" content="noindex">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23b45309'/%3E%3Ctext x='12' y='17' font-size='14' font-family='Georgia,serif' fill='white' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
-<title>Sign In — Acreon CRM</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a1222">
+<title>Acreon CRM — Real Estate Lead Management</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23cda23a'/%3E%3Ctext x='12' y='17' font-size='14' font-family='Georgia,serif' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=11">
+<style>
+  :root{
+    --ink-900:#0a1222; --ink-800:#0f1b30; --ink-700:#16263f;
+    --gold-1:#ead27f; --gold-2:#cda23a; --gold-3:#b6861f;
+    --gold-grad:linear-gradient(135deg,#ead27f 0%,#cda23a 52%,#b6861f 100%);
+    --ink-grad:linear-gradient(165deg,#16263f 0%,#0f1b30 45%,#0a1222 100%);
+    --paper:#f5f4ef; --card:#ffffff; --line:#e9e7df;
+    --slate-900:#0f172a; --slate-600:#475569; --slate-500:#64748b; --slate-400:#94a3b8;
+    --green-600:#059669; --red-600:#dc2626;
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,system-ui,sans-serif;
+    --radius:14px; --radius-lg:20px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--sans);background:var(--ink-900);color:var(--slate-900);
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  /* ============ SPLASH ============ */
+  #splash{position:fixed;inset:0;z-index:50;background:var(--ink-grad);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:32px;overflow:hidden;
+    transition:opacity .6s ease, visibility .6s ease;}
+  #splash.hide{opacity:0;visibility:hidden;}
+  #splash .glow{position:absolute;width:120vw;height:120vw;max-width:760px;max-height:760px;
+    top:-40vw;right:-40vw;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,rgba(205,162,58,.28),rgba(205,162,58,0) 60%);
+    filter:blur(8px);animation:floaty 6s ease-in-out infinite alternate;}
+  @keyframes floaty{to{transform:translateY(26px) scale(1.06)}}
+  .skyline{position:absolute;left:0;right:0;bottom:0;width:100%;height:38vh;max-height:300px;
+    opacity:.9;animation:rise 1.1s cubic-bezier(.22,1,.36,1) .15s both;}
+  @keyframes rise{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:.9}}
+  .splash-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:18px}
+  .mono{width:84px;height:84px;border-radius:22px;background:var(--gold-grad);
+    display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:44px;color:#1a1206;
+    box-shadow:0 18px 50px -12px rgba(182,134,31,.8), inset 0 2px 0 rgba(255,255,255,.5);
+    animation:pop .7s cubic-bezier(.34,1.56,.64,1) both;}
+  @keyframes pop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+  .splash-name{font-family:var(--serif);font-weight:600;font-size:34px;color:#fff;letter-spacing:-.01em;
+    animation:up .7s ease .25s both;}
+  .splash-name .amber{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .splash-tag{color:rgba(255,255,255,.62);font-size:14.5px;max-width:300px;line-height:1.5;animation:up .7s ease .4s both;}
+  @keyframes up{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .loader{width:160px;height:3px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:10px;animation:up .7s ease .5s both}
+  .loader i{display:block;height:100%;width:40%;border-radius:3px;background:var(--gold-grad);animation:load 1.9s ease-in-out infinite}
+  @keyframes load{0%{margin-left:-40%}100%{margin-left:100%}}
+  .splash-skip{position:absolute;bottom:22px;left:0;right:0;z-index:3;color:rgba(255,255,255,.4);font-size:12px;letter-spacing:.04em;animation:up .7s ease 1s both}
+
+  /* ============ LOGIN ============ */
+  #login{min-height:100dvh;display:flex;flex-direction:column;background:var(--paper);
+    opacity:0;transition:opacity .5s ease;}
+  #login.show{opacity:1;}
+  .lg-head{background:var(--ink-grad);color:#fff;padding:30px 22px 26px;position:relative;overflow:hidden;}
+  .lg-head .glow2{position:absolute;width:80vw;height:80vw;max-width:420px;max-height:420px;top:-50%;right:-30%;
+    border-radius:50%;background:radial-gradient(circle,rgba(205,162,58,.25),transparent 62%);pointer-events:none}
+  .lg-brand{display:flex;align-items:center;gap:11px;position:relative;z-index:1}
+  .lg-mono{width:42px;height:42px;border-radius:12px;background:var(--gold-grad);display:grid;place-items:center;
+    font-family:var(--serif);font-weight:700;font-size:22px;color:#1a1206;box-shadow:0 8px 22px -8px rgba(182,134,31,.7), inset 0 1px 0 rgba(255,255,255,.5)}
+  .lg-brand b{font-family:var(--serif);font-weight:600;font-size:21px}
+  .lg-brand small{display:block;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-1);margin-top:1px}
+  .lg-headline{font-family:var(--serif);font-weight:600;font-size:24px;line-height:1.18;margin-top:20px;position:relative;z-index:1}
+  .lg-sub{color:rgba(255,255,255,.6);font-size:13.5px;margin-top:7px;max-width:30ch;position:relative;z-index:1}
+
+  .lg-body{flex:1;display:flex;justify-content:center;padding:24px 18px 36px}
+  .lg-card{width:100%;max-width:400px;display:flex;flex-direction:column;gap:16px}
+  .lg-title{font-family:var(--serif);font-size:22px;color:var(--slate-900);font-weight:600}
+  .lg-title + p{font-size:13px;color:var(--slate-500);margin-top:-10px}
+
+  .demo-hint{display:flex;gap:10px;align-items:flex-start;background:#fbf7ec;border:1px solid #f1e3c0;
+    border-radius:var(--radius);padding:12px 14px;font-size:12.5px;color:#7a5d12;line-height:1.6}
+  .demo-hint b{font-weight:700}
+  .demo-hint .k{font-weight:700;background:#fff;border:1px solid #ecd9a8;border-radius:6px;padding:1px 7px;color:#5b4710;white-space:nowrap}
+
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field label{font-size:12px;font-weight:600;color:var(--slate-600)}
+  .input-wrap{position:relative;display:flex;align-items:center}
+  .field input,.field select{width:100%;font-family:var(--sans);font-size:15px;color:var(--slate-900);
+    background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);padding:13px 14px;transition:border-color .15s, box-shadow .15s}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--gold-2);box-shadow:0 0 0 4px rgba(205,162,58,.16)}
+  .field input::placeholder{color:var(--slate-400)}
+  .pw-toggle{position:absolute;right:8px;background:none;border:none;cursor:pointer;color:var(--slate-400);
+    font-size:12px;font-weight:600;padding:6px 8px;border-radius:8px}
+  .pw-toggle:hover{color:var(--slate-600);background:var(--paper)}
+  .field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+
+  .lg-error{display:none;align-items:center;gap:8px;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;
+    border-radius:var(--radius);padding:11px 13px;font-size:13px;font-weight:500}
+  .lg-error.show{display:flex;animation:shake .4s}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+
+  .signin{width:100%;border:none;cursor:pointer;font-family:var(--sans);font-weight:700;font-size:15.5px;color:#1a1206;
+    background:var(--gold-grad);border-radius:var(--radius);padding:15px;display:flex;align-items:center;justify-content:center;gap:8px;
+    box-shadow:0 10px 24px -8px rgba(182,134,31,.6);transition:transform .12s, box-shadow .15s, filter .15s;margin-top:2px}
+  .signin:hover{filter:brightness(1.04);box-shadow:0 14px 30px -8px rgba(182,134,31,.7)}
+  .signin:active{transform:scale(.98)}
+  .signin.loading{pointer-events:none;opacity:.9}
+  .spin{width:17px;height:17px;border:2.5px solid rgba(26,18,6,.3);border-top-color:#1a1206;border-radius:50%;animation:spin .7s linear infinite;display:none}
+  .signin.loading .spin{display:block}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .lg-foot{text-align:center;font-size:11.5px;color:var(--slate-400);margin-top:6px;line-height:1.6}
+</style>
 </head>
 <body>
-<div class="login-shell">
-  <div class="login-art">
-    <div>
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:40px;">
-        <div class="brand-mark">A</div>
-        <div style="font-family:var(--font-serif);font-weight:600;font-size:18px;">Acreon CRM</div>
-      </div>
-      <div class="login-art-headline">Run your real estate team like a precision machine.</div>
-      <div class="login-art-sub">Built for Acreon Realty — auto-rotate stale leads, capture feedback at every handoff, see the full audit trail. No lead left idle.</div>
-    </div>
-    <div class="login-art-foot">© 2026 Acreon Realty · Built for Keya Trehan's team</div>
+
+<!-- ============ SPLASH ============ -->
+<div id="splash">
+  <div class="glow"></div>
+  <div class="splash-inner">
+    <div class="mono">A</div>
+    <div class="splash-name">Acreon <span class="amber">CRM</span></div>
+    <div class="splash-tag">Real-estate lead management, perfected — capture, route &amp; close every lead.</div>
+    <div class="loader"><i></i></div>
   </div>
-  <div class="login-form-wrap">
-    <div class="login-card" style="max-width:420px;">
-      <div class="login-title">Sign in</div>
-      <div class="login-sub">Choose your account to continue</div>
+  <svg class="skyline" viewBox="0 0 393 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="bld" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1c2c47"/><stop offset="100%" stop-color="#0a1222"/>
+      </linearGradient>
+      <linearGradient id="bldg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#caa23c" stop-opacity=".5"/><stop offset="100%" stop-color="#caa23c" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <g fill="url(#bld)">
+      <rect x="2" y="120" width="34" height="80"/><rect x="40" y="95" width="30" height="105"/>
+      <rect x="74" y="135" width="26" height="65"/><rect x="104" y="70" width="32" height="130"/>
+      <rect x="140" y="110" width="24" height="90"/><rect x="168" y="48" width="36" height="152"/>
+      <rect x="208" y="100" width="28" height="100"/><rect x="240" y="78" width="30" height="122"/>
+      <rect x="274" y="128" width="26" height="72"/><rect x="304" y="92" width="34" height="108"/>
+      <rect x="342" y="116" width="28" height="84"/><rect x="372" y="140" width="20" height="60"/>
+    </g>
+    <rect x="168" y="48" width="36" height="152" fill="url(#bldg)"/>
+    <g fill="#e6c469" opacity=".55">
+      <rect x="178" y="62" width="5" height="7"/><rect x="190" y="62" width="5" height="7"/>
+      <rect x="178" y="78" width="5" height="7"/><rect x="190" y="78" width="5" height="7"/>
+      <rect x="112" y="84" width="5" height="6"/><rect x="124" y="84" width="5" height="6"/>
+      <rect x="48" y="108" width="5" height="6"/><rect x="60" y="108" width="5" height="6"/>
+      <rect x="248" y="92" width="5" height="6"/><rect x="260" y="92" width="5" height="6"/>
+      <rect x="312" y="106" width="5" height="6"/><rect x="324" y="106" width="5" height="6"/>
+    </g>
+  </svg>
+  <div class="splash-skip">Tap anywhere to continue</div>
+</div>
 
-      <div style="margin-bottom: 20px; padding: 12px 14px; background: var(--color-amber-50); border: 1px solid var(--color-amber-100); border-radius: var(--radius); font-size: 12px; color: var(--color-amber-700);">
-        <strong>Demo mode:</strong> Click any user below to sign in as them. Each role sees a different view.
+<!-- ============ LOGIN ============ -->
+<div id="login">
+  <div class="lg-head">
+    <div class="glow2"></div>
+    <div class="lg-brand">
+      <div class="lg-mono">A</div>
+      <div><b>Acreon CRM</b><small>Acreon Realty</small></div>
+    </div>
+    <div class="lg-headline">Run your real estate team like a precision machine.</div>
+    <div class="lg-sub">Auto-rotate stale leads, capture feedback at every handoff, see the full audit trail.</div>
+  </div>
+
+  <div class="lg-body">
+    <form class="lg-card" id="loginForm" autocomplete="off" novalidate>
+      <div>
+        <div class="lg-title">Sign in</div>
+        <p>Use the demo credentials below to explore the workspace.</p>
       </div>
 
-      <div style="font-size:11px;font-weight:600;color:var(--color-slate-500);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Owner</div>
-      <button class="login-user-btn" data-user-id="U-1000">
-        <div class="avatar avatar-md avatar-amber">KT</div>
-        <div style="flex:1;text-align:left;">
-          <div style="font-weight:600;color:var(--color-slate-900);font-size:13.5px;">Keya Trehan</div>
-          <div style="font-size:11.5px;color:var(--color-slate-500);">Owner · Super Admin · Sees everything</div>
+      <div class="demo-hint">
+        <span style="font-size:15px">&#128273;</span>
+        <span><b>Demo access</b> — User ID <span class="k">demo user</span> &nbsp;·&nbsp; Password <span class="k">2026</span></span>
+      </div>
+
+      <div class="field">
+        <label for="uid">User ID</label>
+        <div class="input-wrap"><input id="uid" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="demo user"></div>
+      </div>
+
+      <div class="field">
+        <label for="pwd">Password</label>
+        <div class="input-wrap">
+          <input id="pwd" type="password" placeholder="••••">
+          <button type="button" class="pw-toggle" id="pwToggle" aria-label="Show password">Show</button>
         </div>
-        <span style="color:var(--color-slate-400);font-size:16px;">→</span>
+      </div>
+
+      <div class="field">
+        <label for="role">Sign in as</label>
+        <select id="role">
+          <option value="U-1000">Keya Trehan — Owner (sees everything)</option>
+          <option value="U-1001">Devansh Mehta — Relationship Manager</option>
+          <option value="U-1003">Kabir — Sales Executive</option>
+        </select>
+      </div>
+
+      <div class="lg-error" id="lgError"><span>&#9888;</span><span id="lgErrorMsg">Incorrect credentials. Try the demo login above.</span></div>
+
+      <button type="submit" class="signin" id="signinBtn">
+        <span class="spin"></span><span class="label">Sign in to workspace</span>
       </button>
 
-      <div style="font-size:11px;font-weight:600;color:var(--color-slate-500);text-transform:uppercase;letter-spacing:0.06em;margin:18px 0 8px;">Employees</div>
-      
-        <button class="login-user-btn" data-user-id="U-1001">
-          <div class="avatar avatar-md avatar-emerald">DM</div>
-          <div style="flex:1;text-align:left;">
-            <div style="font-weight:600;color:var(--color-slate-900);font-size:13.5px;">DEVANSH MEHTA</div>
-            <div style="font-size:11.5px;color:var(--color-slate-500);">Relationship Manager · ID 46160</div>
-          </div>
-          <span style="color:var(--color-slate-400);font-size:16px;">→</span>
-        </button>
-      
-        <button class="login-user-btn" data-user-id="U-1003">
-          <div class="avatar avatar-md avatar-violet">KA</div>
-          <div style="flex:1;text-align:left;">
-            <div style="font-weight:600;color:var(--color-slate-900);font-size:13.5px;">KABIR</div>
-            <div style="font-size:11.5px;color:var(--color-slate-500);">Sales Executive · ID 46162</div>
-          </div>
-          <span style="color:var(--color-slate-400);font-size:16px;">→</span>
-        </button>
-      
-        <button class="login-user-btn" data-user-id="U-1004">
-          <div class="avatar avatar-md avatar-rose">RU</div>
-          <div style="flex:1;text-align:left;">
-            <div style="font-weight:600;color:var(--color-slate-900);font-size:13.5px;">RUDRA</div>
-            <div style="font-size:11.5px;color:var(--color-slate-500);">Sales Executive · ID 46163</div>
-          </div>
-          <span style="color:var(--color-slate-400);font-size:16px;">→</span>
-        </button>
-      
-        <button class="login-user-btn" data-user-id="U-1005">
-          <div class="avatar avatar-md avatar-sky">SA</div>
-          <div style="flex:1;text-align:left;">
-            <div style="font-weight:600;color:var(--color-slate-900);font-size:13.5px;">SAMAR</div>
-            <div style="font-size:11.5px;color:var(--color-slate-500);">Pre Sales · ID 46164</div>
-          </div>
-          <span style="color:var(--color-slate-400);font-size:16px;">→</span>
-        </button>
-      
-        <button class="login-user-btn" data-user-id="U-1006">
-          <div class="avatar avatar-md avatar-teal">VE</div>
-          <div style="flex:1;text-align:left;">
-            <div style="font-weight:600;color:var(--color-slate-900);font-size:13.5px;">VEDANT</div>
-            <div style="font-size:11.5px;color:var(--color-slate-500);">Sales Executive · ID 46165</div>
-          </div>
-          <span style="color:var(--color-slate-400);font-size:16px;">→</span>
-        </button>
-      
-
-      <div style="text-align:center;margin-top:18px;font-size:12px;color:var(--color-slate-500);">
-        Demo mockup · click any user to enter their dashboard
-      </div>
-    </div>
+      <div class="lg-foot">Interactive demo · sample data only.<br>Built for Acreon Realty.</div>
+    </form>
   </div>
 </div>
+
 <script>
-  document.querySelectorAll('.login-user-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      localStorage.setItem('acreon_currentUserId', btn.getAttribute('data-user-id'));
-      window.location.href = 'dashboard.html';
-    });
+  var LS_USER = 'acreon_currentUserId';
+  var splash = document.getElementById('splash');
+  var login  = document.getElementById('login');
+
+  function showLogin(){
+    if(splash.classList.contains('hide')) return;
+    splash.classList.add('hide');
+    login.classList.add('show');
+    setTimeout(function(){ splash.style.display='none'; }, 650);
+  }
+  var splashTimer = setTimeout(showLogin, 2300);
+  splash.addEventListener('click', function(){ clearTimeout(splashTimer); showLogin(); });
+
+  // password show/hide
+  var pwd = document.getElementById('pwd'), pwBtn = document.getElementById('pwToggle');
+  pwBtn.addEventListener('click', function(){
+    var show = pwd.type === 'password';
+    pwd.type = show ? 'text' : 'password';
+    pwBtn.textContent = show ? 'Hide' : 'Show';
+  });
+
+  var err = document.getElementById('lgError'), errMsg = document.getElementById('lgErrorMsg');
+  function fail(msg){ errMsg.textContent = msg; err.classList.remove('show'); void err.offsetWidth; err.classList.add('show'); }
+
+  document.getElementById('loginForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var id = (document.getElementById('uid').value||'').trim().toLowerCase();
+    var pw = (document.getElementById('pwd').value||'');
+    var role = document.getElementById('role').value || 'U-1000';
+    var idOk = (id === 'demo user' || id === 'demouser' || id === 'demo');
+    if(!idOk && !pw){ fail('Enter the demo User ID and Password shown above.'); return; }
+    if(!idOk){ fail('User ID should be "demo user".'); return; }
+    if(pw !== '2026'){ fail('Password should be 2026.'); return; }
+    var btn = document.getElementById('signinBtn'); btn.classList.add('loading');
+    try{ localStorage.setItem(LS_USER, role); }catch(_){}
+    setTimeout(function(){
+      document.body.style.transition='opacity .35s ease'; document.body.style.opacity='0';
+      setTimeout(function(){ window.location.href = 'dashboard.html'; }, 320);
+    }, 550);
   });
 </script>
 </body>

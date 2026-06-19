@@ -2315,6 +2315,48 @@
   }
 
 
+
+  // ---------- Dashboard charts: clickable pipeline donut + leads-by-source bars ----------
+  function injectDashboardCharts(){
+    if(document.body.dataset.page!=='dashboard' || !window.MOCK_DATA) return;
+    if(document.querySelector('.ac-charts')) return;
+    var leads=window.MOCK_DATA.leads||[]; var total=leads.length||1;
+    var b={fresh:0,rotation:0,stale:0,closed:0};
+    leads.forEach(function(l){
+      if(l.isClosed) b.closed++; else if(l.isStale) b.stale++;
+      else if((l.rotations||0)>0) b.rotation++; else b.fresh++;
+    });
+    var seg=[
+      {name:'Fresh',val:b.fresh,color:'#10b981',filter:'fresh'},
+      {name:'In rotation',val:b.rotation,color:'#3b82f6',filter:'rotation'},
+      {name:'Stale',val:b.stale,color:'#f59e0b',filter:'stale'},
+      {name:'Closed',val:b.closed,color:'#7c3aed',filter:'closed'}
+    ];
+    var acc=0, stops=[];
+    seg.forEach(function(s){ var a=acc, e=acc+(s.val/total*360); stops.push(s.color+' '+a.toFixed(1)+'deg '+e.toFixed(1)+'deg'); acc=e; });
+    var legend=seg.map(function(s){ return '<div class="ac-li" data-filter="'+s.filter+'"><span class="ac-dot" style="background:'+s.color+'"></span><span class="ac-name">'+s.name+'</span><span class="ac-val">'+s.val+'</span></div>'; }).join('');
+
+    var sN={fb:'Facebook',ig:'Instagram','99':'99acres',mb:'MagicBricks',housing:'Housing.com',website:'Website',walkin:'Walk-in',referral:'Referral'};
+    var sC={fb:'#1877f2',ig:'#d62976','99':'#e4002b',mb:'#e2231a',housing:'#0a66c2',website:'#475569',walkin:'#059669',referral:'#7c3aed'};
+    var sc={}; leads.forEach(function(l){ var k=(l.sourceCls||'').replace('source-','')||'other'; sc[k]=(sc[k]||0)+1; });
+    var sa=Object.keys(sc).map(function(k){return {k:k,n:sc[k]};}).sort(function(x,y){return y.n-x.n;});
+    var mx=Math.max.apply(null,sa.map(function(x){return x.n;}))||1;
+    var bars=sa.map(function(s){ var pct=Math.max(s.n/mx*100,12); return '<div class="ac-bar-row" data-source="'+s.k+'"><div class="ac-bar-label">'+(sN[s.k]||s.k)+'</div><div class="ac-track"><div class="ac-fill" style="width:'+pct+'%;background:'+(sC[s.k]||'#64748b')+'"><span>'+s.n+'</span></div></div></div>'; }).join('');
+
+    var html='<div class="ac-charts">'
+      +'<div class="card"><div class="card-header"><div><div class="card-title">Lead pipeline</div><div class="card-subtitle">Where your '+total+' leads stand · tap to filter</div></div></div>'
+      +'<div class="card-body"><div class="ac-donut-wrap"><div class="ac-donut" style="background:conic-gradient('+stops.join(',')+')"><div class="ac-hole"><b>'+total+'</b><span>leads</span></div></div><div class="ac-legend">'+legend+'</div></div></div></div>'
+      +'<div class="card"><div class="card-header"><div><div class="card-title">Leads by source</div><div class="card-subtitle">Channel performance · tap to filter</div></div></div>'
+      +'<div class="card-body">'+bars+'</div></div></div>';
+
+    var wrap=document.createElement('div'); wrap.innerHTML=html; var node=wrap.firstChild;
+    var banner=document.querySelector('.rot-banner');
+    if(banner && banner.parentNode){ banner.parentNode.insertBefore(node, banner.nextSibling); }
+    else { var c=document.querySelector('.content'); if(c) c.appendChild(node); }
+    node.querySelectorAll('.ac-li').forEach(function(li){ li.addEventListener('click',function(){ window.location.href='leads.html?filter='+li.getAttribute('data-filter'); }); });
+    node.querySelectorAll('.ac-bar-row').forEach(function(r){ r.addEventListener('click',function(){ window.location.href='leads.html?source='+r.getAttribute('data-source'); }); });
+  }
+
   // ---------- Demo enhancements: clickable stat cards, drill-downs, fix avatar initials ----------
   function initFromName(n){
     var w=(n||'').trim().split(/\s+/).filter(function(x){return x && /[A-Za-z]/.test(x[0]);});
@@ -2357,6 +2399,8 @@
           target.dataset.enhanced='1'; target.classList.add('row-clickable');
           target.addEventListener('click',function(){ window.location.href='leads.html?source='+m; });
         }
+        var sCol={fb:'#1877f2',ig:'#d62976','99':'#e4002b',mb:'#e2231a',housing:'#0a66c2',website:'#475569',walkin:'#059669',referral:'#7c3aed'}[m];
+        if(sCol && block){ var fill=[].slice.call(block.querySelectorAll('div')).filter(function(d){return /width:\s*\d+%/.test(d.getAttribute('style')||'');})[0]; if(fill) fill.style.background=sCol; }
       });
     }
 
@@ -2439,6 +2483,7 @@
     if (typeof window.__alRegType === 'undefined') window.__alRegType = 'inhouse';
     // Render persisted simulated notifications into the bell panel
     getNotifs().slice().reverse().forEach(n => addNotifToPanel(n.title, n.kind));
+    injectDashboardCharts();
     enhanceDemo();
   });
 })();

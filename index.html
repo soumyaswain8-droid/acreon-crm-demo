@@ -75,8 +75,28 @@
 
   .lg-body{flex:1;display:flex;justify-content:center;padding:24px 18px 36px}
   .lg-card{width:100%;max-width:400px;display:flex;flex-direction:column;gap:16px}
-  .lg-title{font-family:var(--serif);font-size:22px;color:var(--slate-900);font-weight:600}
-  .lg-title + p{font-size:13px;color:var(--slate-500);margin-top:-10px}
+  .lg-title{font-family:var(--serif);font-size:24px;color:var(--slate-900);font-weight:600;line-height:1.2}
+  .lg-title + p{font-size:13.5px;color:var(--slate-500);margin-top:5px;line-height:1.5}
+  /* desktop-only brand extras */
+  .lg-skyline,.lg-bullets{display:none}
+
+  /* ====== DESKTOP: two-panel split ====== */
+  @media(min-width:880px){
+    #login{flex-direction:row}
+    .lg-head{flex:0 0 46%;max-width:560px;min-height:100dvh;padding:56px 52px;justify-content:center;display:flex;flex-direction:column}
+    .lg-head .lg-brand{margin-bottom:8px}
+    .lg-headline{font-size:38px;line-height:1.12;margin-top:28px;max-width:14ch}
+    .lg-sub{font-size:15.5px;margin-top:14px;max-width:34ch}
+    .lg-bullets{display:flex;flex-direction:column;gap:14px;margin-top:34px;position:relative;z-index:1}
+    .lg-bullet{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,.82);font-size:14px}
+    .lg-bullet .bi{width:30px;height:30px;border-radius:9px;background:rgba(205,162,58,.16);border:1px solid rgba(205,162,58,.32);
+      display:grid;place-items:center;font-size:14px;color:var(--gold-1);flex-shrink:0}
+    .lg-skyline{display:block;position:absolute;left:0;right:0;bottom:0;width:100%;height:200px;opacity:.85;pointer-events:none}
+    .lg-body{flex:1;min-height:100dvh;align-items:center;padding:48px 56px}
+    .lg-card{max-width:380px}
+    .lg-card{animation:cardUp .55s cubic-bezier(.22,1,.36,1) both}
+    @keyframes cardUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  }
 
   .demo-hint{display:flex;gap:10px;align-items:flex-start;background:#fbf7ec;border:1px solid #f1e3c0;
     border-radius:var(--radius);padding:12px 14px;font-size:12.5px;color:#7a5d12;line-height:1.6}
@@ -164,6 +184,28 @@
     </div>
     <div class="lg-headline">Run your real estate team like a precision machine.</div>
     <div class="lg-sub">Auto-rotate stale leads, capture feedback at every handoff, see the full audit trail.</div>
+    <div class="lg-bullets">
+      <div class="lg-bullet"><span class="bi">&#8635;</span><span>Auto-rotate stale leads to a fresh rep at 9 PM</span></div>
+      <div class="lg-bullet"><span class="bi">&#9888;</span><span>Clash &amp; duplicate detection across channel partners</span></div>
+      <div class="lg-bullet"><span class="bi">&#9783;</span><span>Full audit trail &mdash; every handoff &amp; feedback note</span></div>
+    </div>
+    <svg class="lg-skyline" viewBox="0 0 560 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs><linearGradient id="lb" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#243a5e"/><stop offset="100%" stop-color="#0a1222"/></linearGradient></defs>
+      <g fill="url(#lb)">
+        <rect x="6" y="120" width="48" height="80"/><rect x="60" y="92" width="42" height="108"/>
+        <rect x="108" y="138" width="36" height="62"/><rect x="150" y="64" width="46" height="136"/>
+        <rect x="202" y="108" width="34" height="92"/><rect x="242" y="44" width="52" height="156"/>
+        <rect x="300" y="100" width="40" height="100"/><rect x="346" y="78" width="44" height="122"/>
+        <rect x="396" y="130" width="36" height="70"/><rect x="438" y="92" width="48" height="108"/>
+        <rect x="492" y="116" width="40" height="84"/><rect x="538" y="140" width="20" height="60"/>
+      </g>
+      <g fill="#e6c469" opacity=".5">
+        <rect x="254" y="58" width="6" height="8"/><rect x="270" y="58" width="6" height="8"/>
+        <rect x="254" y="78" width="6" height="8"/><rect x="270" y="78" width="6" height="8"/>
+        <rect x="160" y="80" width="6" height="7"/><rect x="176" y="80" width="6" height="7"/>
+        <rect x="356" y="94" width="6" height="7"/><rect x="372" y="94" width="6" height="7"/>
+      </g>
+    </svg>
   </div>
 
   <div class="lg-body">

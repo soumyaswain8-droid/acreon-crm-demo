@@ -2314,6 +2314,80 @@
     });
   }
 
+
+  // ---------- Demo enhancements: clickable stat cards, drill-downs, fix avatar initials ----------
+  function initFromName(n){
+    var w=(n||'').trim().split(/\s+/).filter(function(x){return x && /[A-Za-z]/.test(x[0]);});
+    if(w.length>=2) return (w[0][0]+w[w.length-1][0]).toUpperCase();
+    return ((n||'').trim().slice(0,2)).toUpperCase();
+  }
+  function enhanceDemo(){
+    // A. make stat / KPI cards clickable (skip ones already links)
+    var cardMap={
+      'total leads':'leads.html','conversion rate':'leads.html?filter=closed',
+      'avg rotations':'rotation.html','stale lead %':'leads.html?filter=stale',
+      'in rotation':'leads.html?filter=rotation','closed this month':'leads.html?filter=closed',
+      'active leads':'leads.html?filter=all','my active leads':'leads.html?filter=all',
+      'need my attention':'leads.html?filter=stale','rotated in':'leads.html?filter=rotation',
+      'closed by me':'leads.html?filter=closed'
+    };
+    document.querySelectorAll('.content .kpi, .content .stat-card').forEach(function(c){
+      if(c.tagName==='A' || c.closest('a') || c.dataset.enhanced) return;
+      var le=c.querySelector('.kpi-label,.stat-card-label');
+      var lbl=(le?le.textContent:'').trim().toLowerCase();
+      var href=cardMap[lbl]||'leads.html';
+      c.dataset.enhanced='1'; c.classList.add('kpi-clickable'); c.style.cursor='pointer';
+      c.addEventListener('click',function(){ window.location.href=href; });
+    });
+
+    // helper: find the section card by its title text
+    function cardByTitle(re){
+      return [].slice.call(document.querySelectorAll('.content .card')).filter(function(c){
+        var t=c.querySelector('.card-title'); return t && re.test(t.textContent);
+      })[0];
+    }
+
+    // B. Source ROI rows -> leads?source=ID
+    var sc=cardByTitle(/source roi/i);
+    if(sc){
+      sc.querySelectorAll('.source-dot').forEach(function(dot){
+        var ids=(dot.className.match(/source-([a-z0-9]+)/g)||[]).map(function(x){return x.replace('source-','');}).filter(function(x){return x!=='dot';}); var m=ids[0]; if(!m) return;
+        var line=dot.parentElement; var block=line&&line.parentElement; var target=block||line;
+        if(target && !target.dataset.enhanced){
+          target.dataset.enhanced='1'; target.classList.add('row-clickable');
+          target.addEventListener('click',function(){ window.location.href='leads.html?source='+m; });
+        }
+      });
+    }
+
+    // C. Employee performance rows -> leads?owner=ID
+    var ec=cardByTitle(/employee performance/i);
+    if(ec && window.MOCK_DATA){
+      var byName={};
+      (window.MOCK_DATA.employees||[]).forEach(function(e){ byName[(e.name||'').toLowerCase()]=e.id; });
+      if(window.MOCK_DATA.owner) byName[(window.MOCK_DATA.owner.name||'').toLowerCase()]=window.MOCK_DATA.owner.id;
+      ec.querySelectorAll('.text-strong').forEach(function(nameEl){
+        var id=byName[(nameEl.textContent||'').trim().toLowerCase()]; if(!id) return;
+        var line=nameEl.parentElement; var block=line&&line.parentElement; var target=block||line;
+        if(target && !target.dataset.enhanced){
+          target.dataset.enhanced='1'; target.classList.add('row-clickable');
+          target.addEventListener('click',function(){ window.location.href='leads.html?owner='+id; });
+        }
+      });
+    }
+
+    // D. fix stale avatar initials: recompute from the adjacent name
+    document.querySelectorAll('.avatar').forEach(function(av){
+      var txt=(av.textContent||'').trim();
+      if(!/^[A-Za-z]{1,2}$/.test(txt)) return;
+      var scope=av.parentElement; if(!scope) return;
+      var nameEl=scope.querySelector('.user-name,.rotation-step-name,.cell-strong,.lead-name,.lead-hero-name,.dl-name,.mover-name,.text-strong,strong,b');
+      if(!nameEl) return;
+      var nm=(nameEl.textContent||'').trim(); if(!nm||nm.length<2) return;
+      var ini=initFromName(nm); if(ini && ini!==txt) av.textContent=ini;
+    });
+  }
+
   // ---------- Bootstrap ----------
   document.addEventListener('DOMContentLoaded', () => {
     if (!document.getElementById('sidebar')) return; // not an app page (e.g., login)
@@ -2365,5 +2439,6 @@
     if (typeof window.__alRegType === 'undefined') window.__alRegType = 'inhouse';
     // Render persisted simulated notifications into the bell panel
     getNotifs().slice().reverse().forEach(n => addNotifToPanel(n.title, n.kind));
+    enhanceDemo();
   });
 })();

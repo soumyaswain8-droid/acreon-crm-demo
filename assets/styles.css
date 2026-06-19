@@ -1405,3 +1405,8 @@ body{background:var(--color-bg);}
   .login-card{ max-width:100% !important; width:100% !important; }
   .login-user-btn{ width:100%; }
 }
+
+/* clickable drill-down rows (source ROI / employee perf) + tap feedback */
+.row-clickable{ cursor:pointer; border-radius:10px; transition:background .12s, transform .08s; }
+.row-clickable:hover{ background:var(--color-slate-50); }
+.row-clickable:active{ transform:scale(.99); }
